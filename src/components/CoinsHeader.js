@@ -30,3 +30,54 @@ useEffect(() => {
 
     fetchData();
   }, [url]);
+
+  return (
+    <>
+      <section id="home" className="CoinsHeader-section">
+        <div className="container">
+          <div className="CoinsHeader-content">
+            <div className="CoinsHeader-content__text">
+              <img className="btc-float" src={Btc} alt="floating-el" />
+              <h1>
+                Track and Trade
+                <br /> <span>Crypto currencies</span>
+              </h1>
+              <img className="eth-float" src={Eth} alt="floating-el" />
+            </div>
+
+            <div onLoad={() => setCoinsLoad(false)} className="coin-slider">
+              {coinsLoad && <span className="loader"></span>}
+              {data.map((item) => (
+                <Link
+                  to={`/coin/${item.id}`}
+                  key={item.id}
+                  className="slider-coin"
+                >
+                  <img src={item?.image} alt={item?.name} />
+                  <p className="slider-coin__name">
+                    {item?.name}{" "}
+                    <span
+                      className={
+                        "slider-coin__price " +
+                        (item.price_change_percentage_24h <= 0
+                          ? "red-text"
+                          : "green-text")
+                      }
+                    >
+                      {item?.price_change_percentage_24h?.toFixed(2) + "%"}
+                    </span>
+                  </p>
+                  <p className="slider-coin__price">
+                    {"$ " + numberWithCommas(item.current_price?.toFixed(2))}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default CoinsHeader;
